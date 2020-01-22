@@ -33,6 +33,21 @@ Now you need to compile and install the whole set of PMCTrack tool. You can find
 https://pmctrack.dacya.ucm.es/install/
 https://pmctrack.dacya.ucm.es/getting-started/
 
-The kernel patch works if the kernel module "llc_monitoring_mm.ko" is inserted. 
-Once the build process is completed, you should find the obj file llc_monitoring_mm.ko. You just need to insert it and activate it. You can find more information on the above links.
+The kernel patch works if the kernel module "llc_monitoring_mm.ko" is inserted. First copy the module in the right directory:
 
+$ cp llc_monitoring_mm.c <pmctrack_download_path>/pmctrack/src/modules/pmcs/
+
+Modify the Makefile accordingly in order to let compile the new module too.
+
+You can now build all, following the PMCTrack doc. Once the build process is completed, you should find the obj file llc_monitoring_mm.ko. You just need to insert it and activate it:
+
+$ sudo insmod <pmctrack_download_path>/pmctrack/src/modules/pmcs/intel-core/llc_monitoring_mm.ko
+
+$ cat /proc/pmc/mm_manager 
+[*] 0 - This is just a proof of concept
+[ ] 1 - IPC sampling-based SF estimation model
+[ ] 2 - LLC cache-misses monitoring module
+
+$ echo 'activate 2' > /proc/pmc/mm_manager
+
+You can find more information on how to set up PMCTrack tool and about monitoring modules in the links above.
